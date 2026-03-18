@@ -1,0 +1,14 @@
+# Ignore the virtual environment (it's huge and unnecessary for GitHub)
+.venv/
+venv/
+ENV/
+
+# Ignore PyCharm internal settings
+.idea/
+
+# Ignore your private scan results
+scan_results.txt
+
+# Ignore Python compiled files
+__pycache__/
+*.py[cod]
