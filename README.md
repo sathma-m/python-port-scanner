@@ -20,3 +20,5 @@ A high-performance network security tool built in Python. This scanner identifie
 2. Run the script:
    bash
    python scanner.py
+   
+   <img width="512" height="351" alt="image" src="https://github.com/user-attachments/assets/c9aff24a-56b0-4779-84db-0d6fc4cfc91a" />
