@@ -1,6 +1,9 @@
 import socket
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
+from colorama import Fore, Style, init
+
+init(autoreset=True)
 
 
 # Function to handle the scanning of a single port
@@ -22,7 +25,7 @@ def scan_port(target, port, filename):
             except:
                 pass
 
-            output = f"[+] Port {port} is OPEN | Service: {service_info}"
+            output = f"[{Fore.GREEN}+{Style.RESET_ALL}] Port {Fore.CYAN}{port:<5}{Style.RESET_ALL} is {Fore.GREEN}OPEN{Style.RESET_ALL} | Service: {service_info}"
             print(output)
 
             # SAVE TO FILE: Open in 'append' mode so we don't overwrite previous finds
