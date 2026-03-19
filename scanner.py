@@ -1,66 +1,54 @@
 import socket
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
-from colorama import Fore, Style, init
+from colorama import Fore, init
 
 init(autoreset=True)
 
 
-# Function to handle the scanning of a single port
-def scan_port(target, port, filename):
+def poke(ip, port, save_to):
+    # Try-except block for network hiccups
     try:
-        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.settimeout(1.5)
+        s = socket.socket()
+        s.settimeout(1.0)  # 0.001 was too fast for banners!
 
-        result = s.connect_ex((target, port))
-
-        if result == 0:
-            service_info = "Unknown Service"
+        if s.connect_ex((ip, port)) == 0:
+            banner = "Unknown"
             try:
-                # Try to grab the banner
-                s.send(b'Hello\r\n')
-                banner = s.recv(1024).decode().strip()
-                if banner:
-                    service_info = banner
+                s.send(b'Hello\n')
+                banner = s.recv(1024).decode().strip() or "No banner"
             except:
                 pass
 
-            output = f"[{Fore.GREEN}+{Style.RESET_ALL}] Port {Fore.CYAN}{port:<5}{Style.RESET_ALL} is {Fore.GREEN}OPEN{Style.RESET_ALL} | Service: {service_info}"
-            print(output)
+            # Print to console with colors
+            msg = f"[{Fore.GREEN}FOUND{Fore.RESET}] Port {port} -> {banner}"
+            print(msg)
 
-            # SAVE TO FILE: Open in 'append' mode so we don't overwrite previous finds
-            with open(filename, "a") as f:
-                f.write(output + "\n")
-
+            # Save clean text to file (No ANSI colors in the txt file!)
+            with open(save_to, "a") as f:
+                f.write(f"Port {port}: {banner}\n")
         s.close()
     except:
         pass
 
 
-def main():
-    print("=" * 40)
-    print("   ADVANCED PYTHON PORT SCANNER   ")
-    print("=" * 40)
+def start():
+    target = input("Target IP: ")
+    log = "results.txt"
 
-    target = input("Enter target : ")
-    log_file = "scan_results.txt"
+    print(f"[*] Starting scan on {target} at {datetime.now().strftime('%H:%M:%S')}")
 
-    # Write a header to the file with the timestamp
-    with open(log_file, "w") as f:
-        f.write(f"Scan Report for {target}\n")
-        f.write(f"Started at: {datetime.now()}\n")
-        f.write("-" * 40 + "\n")
+    # Reset log file
+    with open(log, "w") as f:
+        f.write(f"Scan for {target}\n" + "=" * 20 + "\n")
 
-    print(f"Scanning {target}... Results will be saved to {log_file}\n")
+    # 100 threads for speed
+    with ThreadPoolExecutor(100) as pool:
+        for p in range(1, 1025):
+            pool.submit(poke, target, p, log)
 
-    # Use ThreadPool to scan ports 1 to 1024
-    with ThreadPoolExecutor(max_workers=100) as executor:
-        for port in range(1, 1025):
-            executor.submit(scan_port, target, port, log_file)
-
-    print("\n" + "=" * 40)
-    print(f"Scan Complete. Check {log_file} for the report.")
+    print(f"\n[!] Finished. Results in {log}")
 
 
 if __name__ == "__main__":
-    main()
+    start()
