@@ -1,7 +1,0 @@
-Scan for 10.10.0.1
-====================
-Port 23: Unknown
-Port 22: SSH-1.99-Comware-7.1.045
-Port 21: 220 FTP service ready.
-Port 80: Unknown
-Port 443: Unknown
