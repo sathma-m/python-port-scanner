@@ -10,7 +10,7 @@ A high-performance network security tool built in Python. This scanner identifie
 ## Skills Demonstrated
 
 ** Advanced Networking : Working with Python socket library and TCP handshakes.
-** Concurrency:** Implementing Multi-threading to optimize performance.
+** Concurrency: Implementing Multi-threading to optimize performance.
 ** Error Handling: Managing timeouts and connection refused errors gracefully.
 ** Version Control: Professional project structure with Git and GitHub.
 
