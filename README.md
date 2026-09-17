@@ -2,10 +2,10 @@ A high-performance network security tool built in Python. This scanner identifie
 
 ## Features
 
-**High speed : Uses 'ThreadPoolExecutor' to scan multiple ports simultaneously.
-**Service Detection : Performs "Banner Grabbing" to see what software is running on open ports.
-**Automated Logging:** Saves all findings to `scan_results.txt`.
-**User Friendly:** Simple CLI interface for target and port range input.
+High speed : Uses 'ThreadPoolExecutor' to scan multiple ports simultaneously.
+Service Detection : Performs "Banner Grabbing" to see what software is running on open ports.
+Automated Logging: Saves all findings to `scan_results.txt`.
+User Friendly: Simple CLI interface for target and port range input.
 
 ## Skills Demonstrated
 
